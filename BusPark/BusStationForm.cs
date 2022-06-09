@@ -210,13 +210,20 @@ namespace BusPark
             OutputListToTable(ref _dataRouteGridView, DataBase.BusPark.Routes, "ID", "Номер маршрута", "Начало", "Конец", "Протяжённость в минутах", "Интервал");
             _dataRouteGridView.Columns[0].Visible = false;
 
-            OutputListToTable(ref _dataSheduleView, "Водитель", "Автобус", "Маршрут", "Дата", "Время");
+            CreateColums(ref _dataSheduleView, "Водитель", "Автобус", "Маршрут", "Дата", "Время");
             OutputShedule();
 
             //_dataDriverView.DataSource = DataBase.BusPark.Drivers;
         }
 
-        private void OutputListToTable(ref DataGridView table, params string[] columsName)
+        /* Description:
+         * Create colums for the specific table;
+         * 
+         * Args:
+         * table - data grid view we want to fill;
+         * columsName = how we want to call the colums;
+         */
+        private void CreateColums(ref DataGridView table, params string[] columsName)
         {
             // Clear the table;
             table.Columns.Clear();
@@ -231,6 +238,14 @@ namespace BusPark
             }
         }
 
+        /* Description:
+         * Fill the table with your data
+         * 
+         * Args:
+         * table - data grid view we want to fill;
+         * data - data we want to output; 
+         * columsName - how we want to call the colums;
+         */
         private void OutputListToTable<ListContainData>(ref DataGridView table, List<ListContainData> data, params string[] columsName)
         {
             // Clear the table;
@@ -238,7 +253,7 @@ namespace BusPark
             table.Rows.Clear();
             table.Refresh();
 
-            OutputListToTable(ref table, columsName);
+            CreateColums(ref table, columsName);
 
             // Fill data;
             for (int i = 0; i < data.Count; ++i)
@@ -255,9 +270,11 @@ namespace BusPark
 
         private void OutputShedule()
         {
+            // remove all previous data;
             _dataSheduleView.Rows.Clear();
             _dataSheduleView.Refresh();
 
+            // get all names we need;
             var outputValues = (from shed in DataBase.BusPark.Shedules
                                from dr in DataBase.BusPark.Drivers
                                where shed.DriverID == dr.ID
@@ -292,12 +309,14 @@ namespace BusPark
 
             for (int i = 0; i < _dataDriverView.RowCount - 1; ++i)
             {
+                // there we cotain all data about the object;
                 object[] data = new object[_dataDriverView.Columns.Count];
                 for (int j = 0; j < data.Length; ++j)
                 {
                     data[j] = _dataDriverView.Rows[i].Cells[j].Value;
                 }
 
+                // if id == null, that is a new data;
                 if (data[0] != null)
                 {
                     DataBase.BusPark.Drivers.Add(new BusStation.Driver(data[1].ToString(), (float)Convert.ToDouble(data[2]),
@@ -321,12 +340,14 @@ namespace BusPark
 
             for (int i = 0; i < _dataBusView.RowCount - 1; ++i)
             {
+                // there we cotain all data about the object;
                 object[] data = new object[_dataBusView.Columns.Count];
                 for (int j = 0; j < data.Length; ++j)
                 {
                     data[j] = _dataBusView.Rows[i].Cells[j].Value;
                 }
 
+                // if id == null, that is a new data;
                 if (data[0] != null)
                 {
                     DataBase.BusPark.Buses.Add(new BusStation.Bus(data[1].ToString(), data[2].ToString(),
