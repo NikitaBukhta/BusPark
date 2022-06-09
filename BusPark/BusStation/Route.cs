@@ -43,7 +43,7 @@ namespace BusPark.BusStation
 
         public override string ToString()
         {
-            return ID + " " + Number + " " + Begin + " " + End + " " + Duration + " " + Interval;
+            return ID + "|" + Number + "|" + Begin + "|" + End + "|" + Duration + "|" + Interval;
         }
     }
 }

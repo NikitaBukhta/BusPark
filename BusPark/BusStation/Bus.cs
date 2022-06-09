@@ -33,7 +33,7 @@ namespace BusPark.BusStation
 
         public override string ToString()
         {
-            return ID + " " + StateNumber + " " + Type + " " + MaxSeatCount;
+            return ID + "|" + StateNumber + "|" + Type + "|" + MaxSeatCount;
         }
     }
 }

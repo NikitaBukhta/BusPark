@@ -28,7 +28,7 @@ namespace BusPark.BusStation
         {
             string date = DepartureTime.Day + "." + DepartureTime.Month + "." + DepartureTime.Year;
             string time = DepartureTime.Hour + ":" + DepartureTime.Minute;
-            return DriverID + " " + BusID + " " + RouteID + " " + date + " " + time;
+            return DriverID + "|" + BusID + "|" + RouteID + "|" + date + " " + time;
         }
     }
 }

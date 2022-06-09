@@ -82,12 +82,12 @@ namespace BusPark
             this._sheduleColumnRouteBeginEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._sheduleColumnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._sheduleColumnTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataBaseBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this._driverColumnBirthdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._driverColumnClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._driverColumnExperience = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._driverColumnFullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._driverColumnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataBaseBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this._tabDriverPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dataDriverView)).BeginInit();
@@ -240,6 +240,7 @@ namespace BusPark
             this._saveBusButton.TabIndex = 2;
             this._saveBusButton.Text = "Save";
             this._saveBusButton.UseVisualStyleBackColor = true;
+            this._saveBusButton.Click += new System.EventHandler(this.SaveBusButtonClick);
             // 
             // _dataBusView
             // 
@@ -342,10 +343,6 @@ namespace BusPark
             this._sheduleColumnTime.Name = "_sheduleColumnTime";
             this._sheduleColumnTime.ReadOnly = true;
             // 
-            // dataBaseBindingSource
-            // 
-            this.dataBaseBindingSource.DataSource = typeof(BusPark.DataBase);
-            // 
             // _driverColumnBirthdate
             // 
             this._driverColumnBirthdate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
@@ -377,6 +374,10 @@ namespace BusPark
             this._driverColumnID.Name = "_driverColumnID";
             this._driverColumnID.Visible = false;
             // 
+            // dataBaseBindingSource
+            // 
+            this.dataBaseBindingSource.DataSource = typeof(BusPark.DataBase);
+            // 
             // BusStationForm
             // 
             this.ClientSize = new System.Drawing.Size(921, 503);
@@ -399,6 +400,9 @@ namespace BusPark
         private void LoadDataSource()
         {
             OutputListToTable(ref _dataDriverView, DataBase.BusPark.Drivers, "ID", "ФИО", "Стаж", "Категория прав", "День рождения");
+            _dataDriverView.Columns[0].Visible = false;
+
+            OutputListToTable(ref _dataBusView, DataBase.BusPark.Buses, "ID", "Гос. Номер", "Марка", "Количество мест");
             _dataDriverView.Columns[0].Visible = false;
             //_dataDriverView.DataSource = DataBase.BusPark.Drivers;
         }
@@ -432,7 +436,6 @@ namespace BusPark
 
         private void SaveDriverButtonClick(object sender, EventArgs e)
         {
-            //object[] data = new object[_dataDriverView.Columns.Count];
             DataBase.BusPark.Drivers.Clear();
 
             for (int i = 0; i < _dataDriverView.RowCount - 1; ++i)
@@ -462,7 +465,31 @@ namespace BusPark
 
         private void SaveBusButtonClick(object sender, EventArgs e)
         {
+            DataBase.BusPark.Buses.Clear();
 
+            for (int i = 0; i < _dataBusView.RowCount - 1; ++i)
+            {
+                object[] data = new object[_dataBusView.Columns.Count];
+                for (int j = 0; j < data.Length; ++j)
+                {
+                    data[j] = _dataBusView.Rows[i].Cells[j].Value;
+                }
+
+                if (data[0] != null)
+                {
+                    DataBase.BusPark.Buses.Add(new BusStation.Bus(data[1].ToString(), data[2].ToString(),
+                        Convert.ToUInt16(data[3]), Convert.ToUInt64(data[0])));
+                }
+                else
+                {
+                    DataBase.BusPark.Buses.Add(new BusStation.Bus(data[1].ToString(), data[2].ToString(),
+                        Convert.ToUInt16(data[3])));
+                }
+            }
+
+            DataBase.RewriteDataBase(DataBase.BusPark.Buses, DataBase.ConvertToFullPath(DataBase.DBPath, DataBase.BusDBName));
+            OutputListToTable(ref _dataBusView, DataBase.BusPark.Buses, "ID", "Гос. Номер", "Марка", "Количество мест");
+            _dataDriverView.Columns[0].Visible = false;
         }
     }
 }
