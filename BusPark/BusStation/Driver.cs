@@ -35,12 +35,13 @@ namespace BusPark.BusStation
         }
 
         public Driver(string fullName, float experience, string drivingClass, DateTime birthdate)
-            : this(fullName, experience, drivingClass, birthdate, _maxID) { }
+            : this(fullName, experience, drivingClass, birthdate, _maxID + 1) { }
 
         public override string ToString()
         {
             string bd = Birthdate.Day + "." + Birthdate.Month + "." + Birthdate.Year;
-            return ID + "|" + FullName + "|" + Experience + "|" + DrivingClass + "|" + bd;
+            return ID + "|" + FullName + "|" + Experience + "|" + DrivingClass 
+                + "|" + Birthdate.ToString("dd.MM.yyyy");
         }
     }
 }

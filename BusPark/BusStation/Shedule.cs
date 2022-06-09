@@ -14,7 +14,7 @@ namespace BusPark.BusStation
 
         public ulong RouteID { get; private set; }
 
-        DateTime DepartureTime { get; set; }
+        public DateTime DepartureTime { get; set; }
 
         public Shedule (ulong driverID, ulong busID, ulong routeID, DateTime departureTime)
         {
@@ -26,9 +26,8 @@ namespace BusPark.BusStation
 
         public override string ToString()
         {
-            string date = DepartureTime.Day + "." + DepartureTime.Month + "." + DepartureTime.Year;
-            string time = DepartureTime.Hour + ":" + DepartureTime.Minute;
-            return DriverID + "|" + BusID + "|" + RouteID + "|" + date + " " + time;
+            return DriverID + "|" + BusID + "|" + RouteID + "|" + DepartureTime.ToString("dd.MM.yyyy") 
+                + "|" + DepartureTime.ToString("hh:mm:ss");
         }
     }
 }

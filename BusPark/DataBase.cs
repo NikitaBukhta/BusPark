@@ -191,7 +191,7 @@ namespace BusPark
                 return;
             }
 
-            uint rightArgsCount = 4;
+            uint rightArgsCount = 5;
             uint currentLine = 0;
             // Read the file and add data to the library  
             foreach (string line in System.IO.File.ReadLines(fullPath))
@@ -214,8 +214,13 @@ namespace BusPark
                     continue;
                 }
 
+                var date = Convert.ToDateTime(data[3]);
+                var time = Convert.ToDateTime(data[4]);
+                date = date + TimeSpan.Parse(time.ToString("hh:mm:ss"));
+
+
                 BusPark.Shedules.Add(new Shedule(Convert.ToUInt64(data[0]), Convert.ToUInt64(data[1]), 
-                    Convert.ToUInt64(data[2]), Convert.ToDateTime(data[3])));
+                    Convert.ToUInt64(data[2]), date));
             }
         }
 
@@ -294,7 +299,7 @@ namespace BusPark
 
                 BusPark.Routes.Add(new Route(Convert.ToUInt16(data[1]), data[2].ToString(),
                     data[3].ToString(), Convert.ToUInt16(data[4]), Convert.ToUInt16(data[5]),
-                    Convert.ToUInt64(data[6])));
+                    Convert.ToUInt64(data[0])));
             }
         }
     }

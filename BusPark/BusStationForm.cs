@@ -20,30 +20,10 @@ namespace BusPark
         private DataGridView _dataRouteGridView;
         private DataGridView _dataBusView;
         private DataGridView _dataSheduleView;
-        private DataGridViewTextBoxColumn _sheduleColumnDriverFullName;
-        private DataGridViewTextBoxColumn _sheduleColumnBusType;
-        private DataGridViewTextBoxColumn _sheduleColumnRouteBeginEnd;
-        private DataGridViewTextBoxColumn _sheduleColumnDate;
-        private DataGridViewTextBoxColumn _sheduleColumnTime;
-        private DataGridViewTextBoxColumn _routeColumnID;
-        private DataGridViewTextBoxColumn _routeColumnNumber;
-        private DataGridViewTextBoxColumn _routeColumnBegin;
-        private DataGridViewTextBoxColumn _routeColumnEnd;
-        private DataGridViewTextBoxColumn _routeColumnDuration;
-        private DataGridViewTextBoxColumn _routeColumnInterval;
-        private DataGridViewTextBoxColumn _busColumnID;
-        private DataGridViewTextBoxColumn _busColumnNumber;
-        private DataGridViewTextBoxColumn _busColumnType;
-        private DataGridViewTextBoxColumn _busColumnMaxSeats;
         private Button _saveDriverButton;
         private Button _saveBusButton;
         private BindingSource dataBaseBindingSource;
         private IContainer components;
-        private DataGridViewTextBoxColumn _driverColumnID;
-        private DataGridViewTextBoxColumn _driverColumnFullName;
-        private DataGridViewTextBoxColumn _driverColumnExperience;
-        private DataGridViewTextBoxColumn _driverColumnClass;
-        private DataGridViewTextBoxColumn _driverColumnBirthdate;
         private TabPage _tabRoutePage;
 
         public BusStationForm()
@@ -62,31 +42,11 @@ namespace BusPark
             this._dataDriverView = new System.Windows.Forms.DataGridView();
             this._tabRoutePage = new System.Windows.Forms.TabPage();
             this._dataRouteGridView = new System.Windows.Forms.DataGridView();
-            this._routeColumnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._routeColumnNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._routeColumnBegin = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._routeColumnEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._routeColumnDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._routeColumnInterval = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._tabBusPage = new System.Windows.Forms.TabPage();
             this._saveBusButton = new System.Windows.Forms.Button();
             this._dataBusView = new System.Windows.Forms.DataGridView();
-            this._busColumnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._busColumnNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._busColumnType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._busColumnMaxSeats = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this._tabShedulePage = new System.Windows.Forms.TabPage();
             this._dataSheduleView = new System.Windows.Forms.DataGridView();
-            this._sheduleColumnDriverFullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._sheduleColumnBusType = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._sheduleColumnRouteBeginEnd = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._sheduleColumnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._sheduleColumnTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._driverColumnBirthdate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._driverColumnClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._driverColumnExperience = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._driverColumnFullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this._driverColumnID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataBaseBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1.SuspendLayout();
             this._tabDriverPage.SuspendLayout();
@@ -137,12 +97,6 @@ namespace BusPark
             // _dataDriverView
             // 
             this._dataDriverView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this._dataDriverView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this._driverColumnID,
-            this._driverColumnFullName,
-            this._driverColumnExperience,
-            this._driverColumnClass,
-            this._driverColumnBirthdate});
             this._dataDriverView.Location = new System.Drawing.Point(6, 6);
             this._dataDriverView.Name = "_dataDriverView";
             this._dataDriverView.Size = new System.Drawing.Size(877, 412);
@@ -164,61 +118,11 @@ namespace BusPark
             this._dataRouteGridView.AllowUserToAddRows = false;
             this._dataRouteGridView.AllowUserToDeleteRows = false;
             this._dataRouteGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this._dataRouteGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this._routeColumnID,
-            this._routeColumnNumber,
-            this._routeColumnBegin,
-            this._routeColumnEnd,
-            this._routeColumnDuration,
-            this._routeColumnInterval});
             this._dataRouteGridView.Location = new System.Drawing.Point(6, 6);
             this._dataRouteGridView.Name = "_dataRouteGridView";
             this._dataRouteGridView.ReadOnly = true;
             this._dataRouteGridView.Size = new System.Drawing.Size(877, 441);
             this._dataRouteGridView.TabIndex = 1;
-            // 
-            // _routeColumnID
-            // 
-            this._routeColumnID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._routeColumnID.HeaderText = "ID";
-            this._routeColumnID.Name = "_routeColumnID";
-            this._routeColumnID.ReadOnly = true;
-            this._routeColumnID.Visible = false;
-            // 
-            // _routeColumnNumber
-            // 
-            this._routeColumnNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._routeColumnNumber.HeaderText = "Номер";
-            this._routeColumnNumber.Name = "_routeColumnNumber";
-            this._routeColumnNumber.ReadOnly = true;
-            // 
-            // _routeColumnBegin
-            // 
-            this._routeColumnBegin.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._routeColumnBegin.HeaderText = "Начало";
-            this._routeColumnBegin.Name = "_routeColumnBegin";
-            this._routeColumnBegin.ReadOnly = true;
-            // 
-            // _routeColumnEnd
-            // 
-            this._routeColumnEnd.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._routeColumnEnd.HeaderText = "Конец";
-            this._routeColumnEnd.Name = "_routeColumnEnd";
-            this._routeColumnEnd.ReadOnly = true;
-            // 
-            // _routeColumnDuration
-            // 
-            this._routeColumnDuration.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._routeColumnDuration.HeaderText = "Протяжённость в минутах";
-            this._routeColumnDuration.Name = "_routeColumnDuration";
-            this._routeColumnDuration.ReadOnly = true;
-            // 
-            // _routeColumnInterval
-            // 
-            this._routeColumnInterval.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._routeColumnInterval.HeaderText = "Интервал Движения";
-            this._routeColumnInterval.Name = "_routeColumnInterval";
-            this._routeColumnInterval.ReadOnly = true;
             // 
             // _tabBusPage
             // 
@@ -245,40 +149,10 @@ namespace BusPark
             // _dataBusView
             // 
             this._dataBusView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this._dataBusView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this._busColumnID,
-            this._busColumnNumber,
-            this._busColumnType,
-            this._busColumnMaxSeats});
             this._dataBusView.Location = new System.Drawing.Point(6, 6);
             this._dataBusView.Name = "_dataBusView";
             this._dataBusView.Size = new System.Drawing.Size(877, 412);
             this._dataBusView.TabIndex = 1;
-            // 
-            // _busColumnID
-            // 
-            this._busColumnID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._busColumnID.HeaderText = "ID";
-            this._busColumnID.Name = "_busColumnID";
-            this._busColumnID.Visible = false;
-            // 
-            // _busColumnNumber
-            // 
-            this._busColumnNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._busColumnNumber.HeaderText = "Гос. Номер";
-            this._busColumnNumber.Name = "_busColumnNumber";
-            // 
-            // _busColumnType
-            // 
-            this._busColumnType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._busColumnType.HeaderText = "Тип";
-            this._busColumnType.Name = "_busColumnType";
-            // 
-            // _busColumnMaxSeats
-            // 
-            this._busColumnMaxSeats.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._busColumnMaxSeats.HeaderText = "Вместимость";
-            this._busColumnMaxSeats.Name = "_busColumnMaxSeats";
             // 
             // _tabShedulePage
             // 
@@ -296,83 +170,11 @@ namespace BusPark
             this._dataSheduleView.AllowUserToAddRows = false;
             this._dataSheduleView.AllowUserToDeleteRows = false;
             this._dataSheduleView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this._dataSheduleView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this._sheduleColumnDriverFullName,
-            this._sheduleColumnBusType,
-            this._sheduleColumnRouteBeginEnd,
-            this._sheduleColumnDate,
-            this._sheduleColumnTime});
             this._dataSheduleView.Location = new System.Drawing.Point(6, 6);
             this._dataSheduleView.Name = "_dataSheduleView";
             this._dataSheduleView.ReadOnly = true;
             this._dataSheduleView.Size = new System.Drawing.Size(877, 441);
             this._dataSheduleView.TabIndex = 1;
-            // 
-            // _sheduleColumnDriverFullName
-            // 
-            this._sheduleColumnDriverFullName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._sheduleColumnDriverFullName.HeaderText = "Водитель";
-            this._sheduleColumnDriverFullName.Name = "_sheduleColumnDriverFullName";
-            this._sheduleColumnDriverFullName.ReadOnly = true;
-            // 
-            // _sheduleColumnBusType
-            // 
-            this._sheduleColumnBusType.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._sheduleColumnBusType.HeaderText = "Автобус";
-            this._sheduleColumnBusType.Name = "_sheduleColumnBusType";
-            this._sheduleColumnBusType.ReadOnly = true;
-            // 
-            // _sheduleColumnRouteBeginEnd
-            // 
-            this._sheduleColumnRouteBeginEnd.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._sheduleColumnRouteBeginEnd.HeaderText = "Маршрут";
-            this._sheduleColumnRouteBeginEnd.Name = "_sheduleColumnRouteBeginEnd";
-            this._sheduleColumnRouteBeginEnd.ReadOnly = true;
-            // 
-            // _sheduleColumnDate
-            // 
-            this._sheduleColumnDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._sheduleColumnDate.HeaderText = "Дата";
-            this._sheduleColumnDate.Name = "_sheduleColumnDate";
-            this._sheduleColumnDate.ReadOnly = true;
-            // 
-            // _sheduleColumnTime
-            // 
-            this._sheduleColumnTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._sheduleColumnTime.HeaderText = "Время";
-            this._sheduleColumnTime.Name = "_sheduleColumnTime";
-            this._sheduleColumnTime.ReadOnly = true;
-            // 
-            // _driverColumnBirthdate
-            // 
-            this._driverColumnBirthdate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._driverColumnBirthdate.HeaderText = "День Рождения";
-            this._driverColumnBirthdate.Name = "_driverColumnBirthdate";
-            // 
-            // _driverColumnClass
-            // 
-            this._driverColumnClass.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._driverColumnClass.HeaderText = "Класс";
-            this._driverColumnClass.Name = "_driverColumnClass";
-            // 
-            // _driverColumnExperience
-            // 
-            this._driverColumnExperience.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._driverColumnExperience.HeaderText = "Стаж";
-            this._driverColumnExperience.Name = "_driverColumnExperience";
-            // 
-            // _driverColumnFullName
-            // 
-            this._driverColumnFullName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._driverColumnFullName.HeaderText = "ФИО";
-            this._driverColumnFullName.Name = "_driverColumnFullName";
-            // 
-            // _driverColumnID
-            // 
-            this._driverColumnID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this._driverColumnID.HeaderText = "ID";
-            this._driverColumnID.Name = "_driverColumnID";
-            this._driverColumnID.Visible = false;
             // 
             // dataBaseBindingSource
             // 
@@ -403,11 +205,18 @@ namespace BusPark
             _dataDriverView.Columns[0].Visible = false;
 
             OutputListToTable(ref _dataBusView, DataBase.BusPark.Buses, "ID", "Гос. Номер", "Марка", "Количество мест");
-            _dataDriverView.Columns[0].Visible = false;
+            _dataBusView.Columns[0].Visible = false;
+
+            OutputListToTable(ref _dataRouteGridView, DataBase.BusPark.Routes, "ID", "Номер маршрута", "Начало", "Конец", "Протяжённость в минутах", "Интервал");
+            _dataRouteGridView.Columns[0].Visible = false;
+
+            OutputListToTable(ref _dataSheduleView, "Водитель", "Автобус", "Маршрут", "Дата", "Время");
+            OutputShedule();
+
             //_dataDriverView.DataSource = DataBase.BusPark.Drivers;
         }
 
-        private void OutputListToTable<ListContainData>(ref DataGridView table, List<ListContainData> data, params string[] columsName)
+        private void OutputListToTable(ref DataGridView table, params string[] columsName)
         {
             // Clear the table;
             table.Columns.Clear();
@@ -420,6 +229,16 @@ namespace BusPark
                 table.Columns.Add(columsName[i], columsName[i]);
                 table.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
+        }
+
+        private void OutputListToTable<ListContainData>(ref DataGridView table, List<ListContainData> data, params string[] columsName)
+        {
+            // Clear the table;
+            table.Columns.Clear();
+            table.Rows.Clear();
+            table.Refresh();
+
+            OutputListToTable(ref table, columsName);
 
             // Fill data;
             for (int i = 0; i < data.Count; ++i)
@@ -431,6 +250,39 @@ namespace BusPark
                 {
                     table.Rows[i].Cells[j].Value = d[j];
                 }
+            }
+        }
+
+        private void OutputShedule()
+        {
+            _dataSheduleView.Rows.Clear();
+            _dataSheduleView.Refresh();
+
+            var outputValues = (from shed in DataBase.BusPark.Shedules
+                               from dr in DataBase.BusPark.Drivers
+                               where shed.DriverID == dr.ID
+                               from b in DataBase.BusPark.Buses
+                               where shed.BusID == b.ID
+                               from r in DataBase.BusPark.Routes
+                               where shed.RouteID == r.ID
+                               select new
+                               {
+                                   driver = dr.FullName,
+                                   bus = b.Type,
+                                   route = r.Begin + " - " + r.End,
+                                   date = shed.DepartureTime.ToString("dd.MM.yyyy"),
+                                   time = shed.DepartureTime.ToString("hh:mm:ss")
+                               }).ToList();
+
+            for (int i = 0; i < outputValues.Count; ++i)
+            {
+                _dataSheduleView.Rows.Add(1);
+
+                _dataSheduleView.Rows[i].Cells[0].Value = outputValues[i].driver;
+                _dataSheduleView.Rows[i].Cells[1].Value = outputValues[i].bus;
+                _dataSheduleView.Rows[i].Cells[2].Value = outputValues[i].route;
+                _dataSheduleView.Rows[i].Cells[3].Value = outputValues[i].date;
+                _dataSheduleView.Rows[i].Cells[4].Value = outputValues[i].time;
             }
         }
 
@@ -489,7 +341,7 @@ namespace BusPark
 
             DataBase.RewriteDataBase(DataBase.BusPark.Buses, DataBase.ConvertToFullPath(DataBase.DBPath, DataBase.BusDBName));
             OutputListToTable(ref _dataBusView, DataBase.BusPark.Buses, "ID", "Гос. Номер", "Марка", "Количество мест");
-            _dataDriverView.Columns[0].Visible = false;
+            _dataBusView.Columns[0].Visible = false;
         }
     }
 }
