@@ -40,7 +40,7 @@ namespace BusPark.BusStation
         public override string ToString()
         {
             string bd = Birthdate.Day + "." + Birthdate.Month + "." + Birthdate.Year;
-            return ID + " " + FullName.Replace(' ', '-') + " " + Experience + " " + DrivingClass + " " + bd;
+            return ID + "|" + FullName + "|" + Experience + "|" + DrivingClass + "|" + bd;
         }
     }
 }

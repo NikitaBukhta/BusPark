@@ -157,7 +157,7 @@ namespace BusPark
             foreach (string line in System.IO.File.ReadLines(fullPath))
             {
                 ++currentLine;
-                var data = line.Split(' ');
+                var data = line.Split('|');
 
                 try
                 {
@@ -197,7 +197,7 @@ namespace BusPark
             foreach (string line in System.IO.File.ReadLines(fullPath))
             {
                 ++currentLine;
-                var data = line.Split(' ');
+                var data = line.Split('|');
 
                 try
                 {
@@ -236,7 +236,7 @@ namespace BusPark
             foreach (string line in System.IO.File.ReadLines(fullPath))
             {
                 ++currentLine;
-                var data = line.Split(' ');
+                var data = line.Split('|');
 
                 try
                 {
@@ -275,7 +275,7 @@ namespace BusPark
             foreach (string line in System.IO.File.ReadLines(fullPath))
             {
                 ++currentLine;
-                var data = line.Split(' ');
+                var data = line.Split('|');
 
                 try
                 {

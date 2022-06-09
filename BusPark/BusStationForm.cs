@@ -50,7 +50,7 @@ namespace BusPark
         {
             InitializeComponent();
             DataBase.ReadDBs();
-            //LoadDataSource();
+            LoadDataSource();
         }
 
         private void InitializeComponent()
@@ -398,15 +398,66 @@ namespace BusPark
 
         private void LoadDataSource()
         {
-            _dataDriverView.DataSource = DataBase.BusPark.Drivers;
+            OutputListToTable(ref _dataDriverView, DataBase.BusPark.Drivers, "ID", "ФИО", "Стаж", "Категория прав", "День рождения");
+            _dataDriverView.Columns[0].Visible = false;
+            //_dataDriverView.DataSource = DataBase.BusPark.Drivers;
+        }
+
+        private void OutputListToTable<ListContainData>(ref DataGridView table, List<ListContainData> data, params string[] columsName)
+        {
+            // Clear the table;
+            table.Columns.Clear();
+            table.Rows.Clear();
+            table.Refresh();
+
+            // Add all columns;
+            for (int i = 0; i < columsName.Length; ++i)
+            {
+                table.Columns.Add(columsName[i], columsName[i]);
+                table.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            }
+
+            // Fill data;
+            for (int i = 0; i < data.Count; ++i)
+            {
+                table.Rows.Add(1);
+                var d = data[i].ToString().Split('|');
+
+                for (int j = 0; j < Math.Min(d.Length, columsName.Length); ++j)
+                {
+                    table.Rows[i].Cells[j].Value = d[j];
+                }
+            }
         }
 
         private void SaveDriverButtonClick(object sender, EventArgs e)
         {
-            /*
-            //_dataDriverView.DataSource = DataBase.BusPark.Drivers;
-            DataBase.BusPark.Drivers = (List<BusStation.Driver>)_dataDriverView.DataSource;
-            DataBase.AddData(DataBase.BusPark.Drivers, DataBase.ConvertToFullPath(DataBase.DBPath, DataBase.DriverDBName));*/
+            //object[] data = new object[_dataDriverView.Columns.Count];
+            DataBase.BusPark.Drivers.Clear();
+
+            for (int i = 0; i < _dataDriverView.RowCount - 1; ++i)
+            {
+                object[] data = new object[_dataDriverView.Columns.Count];
+                for (int j = 0; j < data.Length; ++j)
+                {
+                    data[j] = _dataDriverView.Rows[i].Cells[j].Value;
+                }
+
+                if (data[0] != null)
+                {
+                    DataBase.BusPark.Drivers.Add(new BusStation.Driver(data[1].ToString(), (float)Convert.ToDouble(data[2]),
+                        data[3].ToString(), Convert.ToDateTime(data[4]), Convert.ToUInt64(data[0])));
+                }
+                else
+                {
+                    DataBase.BusPark.Drivers.Add(new BusStation.Driver(data[1].ToString(), (float)Convert.ToDouble(data[2]),
+                        data[3].ToString(), Convert.ToDateTime(data[4])));
+                }
+            }
+
+            DataBase.RewriteDataBase(DataBase.BusPark.Drivers, DataBase.ConvertToFullPath(DataBase.DBPath, DataBase.DriverDBName));
+            OutputListToTable(ref _dataDriverView, DataBase.BusPark.Drivers, "ID", "ФИО", "Стаж", "Категория прав", "День рождения");
+            _dataDriverView.Columns[0].Visible = false;
         }
 
         private void SaveBusButtonClick(object sender, EventArgs e)
