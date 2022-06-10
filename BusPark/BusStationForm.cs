@@ -7,12 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace BusPark
 {
     public partial class BusStationForm : Form
     {
-        private TabControl tabControl1;
+        private TabControl _mainPage;
         private TabPage _tabDriverPage;
         private TabPage _tabBusPage;
         private TabPage _tabShedulePage;
@@ -22,8 +23,11 @@ namespace BusPark
         private DataGridView _dataSheduleView;
         private Button _saveDriverButton;
         private Button _saveBusButton;
-        private BindingSource dataBaseBindingSource;
         private IContainer components;
+        private TabPage tabPage1;
+        private Button _saveDirectoryButton;
+        private TabPage tabQueryPage;
+        private Label _newDataBaseDirLabel;
         private TabPage _tabRoutePage;
 
         public BusStationForm()
@@ -35,8 +39,10 @@ namespace BusPark
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this._mainPage = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this._newDataBaseDirLabel = new System.Windows.Forms.Label();
+            this._saveDirectoryButton = new System.Windows.Forms.Button();
             this._tabDriverPage = new System.Windows.Forms.TabPage();
             this._saveDriverButton = new System.Windows.Forms.Button();
             this._dataDriverView = new System.Windows.Forms.DataGridView();
@@ -47,8 +53,9 @@ namespace BusPark
             this._dataBusView = new System.Windows.Forms.DataGridView();
             this._tabShedulePage = new System.Windows.Forms.TabPage();
             this._dataSheduleView = new System.Windows.Forms.DataGridView();
-            this.dataBaseBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tabControl1.SuspendLayout();
+            this.tabQueryPage = new System.Windows.Forms.TabPage();
+            this._mainPage.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this._tabDriverPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dataDriverView)).BeginInit();
             this._tabRoutePage.SuspendLayout();
@@ -57,20 +64,53 @@ namespace BusPark
             ((System.ComponentModel.ISupportInitialize)(this._dataBusView)).BeginInit();
             this._tabShedulePage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dataSheduleView)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataBaseBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // _mainPage
             // 
-            this.tabControl1.Controls.Add(this._tabDriverPage);
-            this.tabControl1.Controls.Add(this._tabRoutePage);
-            this.tabControl1.Controls.Add(this._tabBusPage);
-            this.tabControl1.Controls.Add(this._tabShedulePage);
-            this.tabControl1.Location = new System.Drawing.Point(12, 12);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(897, 479);
-            this.tabControl1.TabIndex = 0;
+            this._mainPage.Controls.Add(this.tabPage1);
+            this._mainPage.Controls.Add(this._tabDriverPage);
+            this._mainPage.Controls.Add(this._tabRoutePage);
+            this._mainPage.Controls.Add(this._tabBusPage);
+            this._mainPage.Controls.Add(this._tabShedulePage);
+            this._mainPage.Controls.Add(this.tabQueryPage);
+            this._mainPage.Location = new System.Drawing.Point(12, 12);
+            this._mainPage.Name = "_mainPage";
+            this._mainPage.SelectedIndex = 0;
+            this._mainPage.Size = new System.Drawing.Size(897, 479);
+            this._mainPage.TabIndex = 0;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this._newDataBaseDirLabel);
+            this.tabPage1.Controls.Add(this._saveDirectoryButton);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(889, 453);
+            this.tabPage1.TabIndex = 4;
+            this.tabPage1.Text = "Выбор директории";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // _newDataBaseDirLabel
+            // 
+            this._newDataBaseDirLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._newDataBaseDirLabel.Location = new System.Drawing.Point(129, 150);
+            this._newDataBaseDirLabel.Name = "_newDataBaseDirLabel";
+            this._newDataBaseDirLabel.Size = new System.Drawing.Size(448, 23);
+            this._newDataBaseDirLabel.TabIndex = 2;
+            this._newDataBaseDirLabel.Text = "Нажмите здесь, чтоб выбрать директорию для баз данных";
+            this._newDataBaseDirLabel.Click += new System.EventHandler(this.NewDataBaseDirLabelClick);
+            // 
+            // _saveDirectoryButton
+            // 
+            this._saveDirectoryButton.Location = new System.Drawing.Point(583, 150);
+            this._saveDirectoryButton.Name = "_saveDirectoryButton";
+            this._saveDirectoryButton.Size = new System.Drawing.Size(67, 23);
+            this._saveDirectoryButton.TabIndex = 1;
+            this._saveDirectoryButton.Text = "OK";
+            this._saveDirectoryButton.UseVisualStyleBackColor = true;
+            this._saveDirectoryButton.Click += new System.EventHandler(this.SaveDirectoryButtonClick);
             // 
             // _tabDriverPage
             // 
@@ -101,6 +141,7 @@ namespace BusPark
             this._dataDriverView.Name = "_dataDriverView";
             this._dataDriverView.Size = new System.Drawing.Size(877, 412);
             this._dataDriverView.TabIndex = 0;
+            this._dataDriverView.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this.DataDriverViewUserDeletingRow);
             // 
             // _tabRoutePage
             // 
@@ -153,6 +194,7 @@ namespace BusPark
             this._dataBusView.Name = "_dataBusView";
             this._dataBusView.Size = new System.Drawing.Size(877, 412);
             this._dataBusView.TabIndex = 1;
+            this._dataBusView.UserDeletingRow += new System.Windows.Forms.DataGridViewRowCancelEventHandler(this._dataBusView_UserDeletingRow);
             // 
             // _tabShedulePage
             // 
@@ -176,16 +218,22 @@ namespace BusPark
             this._dataSheduleView.Size = new System.Drawing.Size(877, 441);
             this._dataSheduleView.TabIndex = 1;
             // 
-            // dataBaseBindingSource
+            // tabQueryPage
             // 
-            this.dataBaseBindingSource.DataSource = typeof(BusPark.DataBase);
+            this.tabQueryPage.Location = new System.Drawing.Point(4, 22);
+            this.tabQueryPage.Name = "tabQueryPage";
+            this.tabQueryPage.Size = new System.Drawing.Size(889, 453);
+            this.tabQueryPage.TabIndex = 5;
+            this.tabQueryPage.Text = "Запросы";
+            this.tabQueryPage.UseVisualStyleBackColor = true;
             // 
             // BusStationForm
             // 
             this.ClientSize = new System.Drawing.Size(921, 503);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this._mainPage);
             this.Name = "BusStationForm";
-            this.tabControl1.ResumeLayout(false);
+            this._mainPage.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this._tabDriverPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dataDriverView)).EndInit();
             this._tabRoutePage.ResumeLayout(false);
@@ -194,7 +242,6 @@ namespace BusPark
             ((System.ComponentModel.ISupportInitialize)(this._dataBusView)).EndInit();
             this._tabShedulePage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dataSheduleView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataBaseBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -210,7 +257,7 @@ namespace BusPark
             OutputListToTable(ref _dataRouteGridView, DataBase.BusPark.Routes, "ID", "Номер маршрута", "Начало", "Конец", "Протяжённость в минутах", "Интервал");
             _dataRouteGridView.Columns[0].Visible = false;
 
-            CreateColums(ref _dataSheduleView, "Водитель", "Автобус", "Маршрут", "Дата", "Время");
+            CreateColums(ref _dataSheduleView, "Водитель", "Автобус", "Гос. номер", "Маршрут", "Дата", "Время");
             OutputShedule();
 
             //_dataDriverView.DataSource = DataBase.BusPark.Drivers;
@@ -286,6 +333,7 @@ namespace BusPark
                                {
                                    driver = dr.FullName,
                                    bus = b.Type,
+                                   busStateNumber = b.StateNumber,
                                    route = r.Begin + " - " + r.End,
                                    date = shed.DepartureTime.ToString("dd.MM.yyyy"),
                                    time = shed.DepartureTime.ToString("hh:mm:ss")
@@ -297,9 +345,10 @@ namespace BusPark
 
                 _dataSheduleView.Rows[i].Cells[0].Value = outputValues[i].driver;
                 _dataSheduleView.Rows[i].Cells[1].Value = outputValues[i].bus;
-                _dataSheduleView.Rows[i].Cells[2].Value = outputValues[i].route;
-                _dataSheduleView.Rows[i].Cells[3].Value = outputValues[i].date;
-                _dataSheduleView.Rows[i].Cells[4].Value = outputValues[i].time;
+                _dataSheduleView.Rows[i].Cells[2].Value = outputValues[i].busStateNumber;
+                _dataSheduleView.Rows[i].Cells[3].Value = outputValues[i].route;
+                _dataSheduleView.Rows[i].Cells[4].Value = outputValues[i].date;
+                _dataSheduleView.Rows[i].Cells[5].Value = outputValues[i].time;
             }
         }
 
@@ -332,6 +381,8 @@ namespace BusPark
             DataBase.RewriteDataBase(DataBase.BusPark.Drivers, DataBase.ConvertToFullPath(DataBase.DBPath, DataBase.DriverDBName));
             OutputListToTable(ref _dataDriverView, DataBase.BusPark.Drivers, "ID", "ФИО", "Стаж", "Категория прав", "День рождения");
             _dataDriverView.Columns[0].Visible = false;
+
+            SaveShedule();
         }
 
         private void SaveBusButtonClick(object sender, EventArgs e)
@@ -363,6 +414,135 @@ namespace BusPark
             DataBase.RewriteDataBase(DataBase.BusPark.Buses, DataBase.ConvertToFullPath(DataBase.DBPath, DataBase.BusDBName));
             OutputListToTable(ref _dataBusView, DataBase.BusPark.Buses, "ID", "Гос. Номер", "Марка", "Количество мест");
             _dataBusView.Columns[0].Visible = false;
+
+            SaveShedule();
+        }
+
+        private void SaveShedule()
+        {
+            DataBase.BusPark.Shedules.Clear();
+
+            for (int i = 0; i < _dataSheduleView.RowCount - 1; ++i)
+            {
+                // there we cotain all data about the object;
+                object[] data = new object[_dataSheduleView.Columns.Count];
+                for (int j = 0; j < data.Length; ++j)
+                {
+                    data[j] = _dataSheduleView.Rows[i].Cells[j].Value;
+                }
+
+                var driverID = (from dr in DataBase.BusPark.Drivers
+                                where data[0].Equals(dr.FullName)
+                                select new
+                                {
+                                    dr.ID
+                                }).FirstOrDefault();
+
+                var busID = (from b in DataBase.BusPark.Buses
+                             where b.StateNumber == data[2].ToString()
+                             select new
+                             {
+                                 b.ID
+                             }).FirstOrDefault();
+
+                var RouteID = (from s in DataBase.BusPark.Routes
+                               where (s.Begin + " - " + s.End) == data[3].ToString()
+                               select new
+                               {
+                                   s.ID
+                               }).FirstOrDefault();
+
+                // if id == null, that is a new data;
+                if (driverID != default && busID != default && RouteID != default)
+                {
+                    var date = Convert.ToDateTime(data[4]);
+                    var time = Convert.ToDateTime(data[5]);
+                    date = date + TimeSpan.Parse(time.ToString("hh:mm:ss"));
+
+                    DataBase.BusPark.Shedules.Add(new BusStation.Shedule(driverID.ID, busID.ID,
+                        RouteID.ID, date));
+                }
+            }
+
+            DataBase.RewriteDataBase(DataBase.BusPark.Shedules, DataBase.ConvertToFullPath(DataBase.DBPath, DataBase.BusDBName));
+            CreateColums(ref _dataSheduleView, "Водитель", "Автобус", "Гос. номер", "Маршрут", "Дата", "Время");
+            OutputShedule();
+        }
+
+        private void NewDataBaseDirLabelClick(object sender, EventArgs e)
+        {
+            FolderBrowserDialog link = new FolderBrowserDialog();
+
+            if (link.ShowDialog() == DialogResult.OK)
+                _newDataBaseDirLabel.Text = link.SelectedPath;
+        }
+
+        private void SaveDirectoryButtonClick(object sender, EventArgs e)
+        {
+            try
+            {
+                /* check if entered data is a directory.
+                 * If not, exception throws;
+                 */
+                if(!(_newDataBaseDirLabel.Text.Contains("/") || _newDataBaseDirLabel.Text.Contains("\\")))
+                {
+                    throw new DataException("Entered data in not a directory!");
+                }
+
+                DataBase.DBPath = _newDataBaseDirLabel.Text;
+                DataBase.ReadDBs();                             // read new data;
+                LoadDataSource();                               // load new data;
+            }
+            catch(DataException error)
+            {
+                MessageBox.Show(error.Message, "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void DataDriverViewUserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            var res = MessageBox.Show("Are you sure you want to delete this row?", "Warning!",
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+
+            switch (res)
+            {
+                case (DialogResult.Cancel):
+                    e.Cancel = true;    // calncel deleting;
+                    break;
+
+                case (DialogResult.OK):
+                    for (int i = _dataSheduleView.RowCount - 1; i >= 0; --i)
+                    {
+                        if (_dataSheduleView.Rows[i].Cells[0].Value.Equals(e.Row.Cells[1].Value))
+                        {
+                            _dataSheduleView.Rows.Remove(_dataSheduleView.Rows[i]);
+                        }
+                    }
+                    break;
+            }
+        }
+
+        private void _dataBusView_UserDeletingRow(object sender, DataGridViewRowCancelEventArgs e)
+        {
+            var res = MessageBox.Show("Are you sure you want to delete this row?", "Warning!",
+                    MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
+
+            switch (res)
+            {
+                case (DialogResult.Cancel):
+                    e.Cancel = true;    // calncel deleting;
+                    break;
+
+                case (DialogResult.OK):
+                    for (int i = _dataSheduleView.RowCount - 1; i >= 0; --i)
+                    {
+                        if (_dataSheduleView.Rows[i].Cells[2].Value.Equals(e.Row.Cells[1].Value))
+                        {
+                            _dataSheduleView.Rows.Remove(_dataSheduleView.Rows[i]);
+                        }
+                    }
+                    break;
+            }
         }
     }
 }
