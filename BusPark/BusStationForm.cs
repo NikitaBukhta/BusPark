@@ -671,6 +671,9 @@ namespace BusPark
             }
         }
 
+        /* Description:
+         * Output all routes and their min and max diration;
+         */
         private void OutputRoutes()
         {
             var routes = (from route in DataBase.BusPark.Routes
@@ -704,8 +707,12 @@ namespace BusPark
             _moreDataQueryOutput.Visible = true;
         }
 
+        /* Description:
+         * Output the most experienced driver and his routes;
+         */
         private void OutputTheMostExperiencedDriver()
         {
+            // find the most experienced driver;
             var driver = DataBase.BusPark.Drivers.FirstOrDefault(
                 o => o.Experience == DataBase.BusPark.Drivers.Max(e => e.Experience));
 
@@ -735,6 +742,9 @@ namespace BusPark
             }
         }
 
+        /* Description:
+         * Output total park duration to the screen in minutes;
+         */
         private void OutputTotalParkDuration()
         {
             var totalDuration = DataBase.BusPark.Routes.Sum(o => o.Duration);
@@ -755,7 +765,7 @@ namespace BusPark
             {
                 case 0:
                     choosenRouteID = Convert.ToUInt64(_comboQueryElemsBox.SelectedValue);
-                    OutputDriversWithSHedule(choosenRouteID);
+                    OutputDriversWithShedule(choosenRouteID);
 
                     break;
 
@@ -771,6 +781,13 @@ namespace BusPark
 
         }
 
+        /* Description:
+         * Output buses with specific route that user chose
+         * to the table;
+         * 
+         * Args:
+         * routeID - route that user chose
+         */
         private void OutputBusesForRoutes(ulong routeID)
         {
             var buses = (from sh in DataBase.BusPark.Shedules
@@ -784,7 +801,14 @@ namespace BusPark
             _dataQueryOutputView.Columns[0].Visible = false;
         }
 
-        private void OutputDriversWithSHedule(ulong routeID)
+        /* Description:
+         * Output driver with specific route that user chose
+         * to the table;
+         * 
+         * Args:
+         * routeID - route that user chose
+         */
+        private void OutputDriversWithShedule(ulong routeID)
         {
             var drivers = (from sh in DataBase.BusPark.Shedules
                            where sh.RouteID == routeID
