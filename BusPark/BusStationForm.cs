@@ -532,7 +532,7 @@ namespace BusPark
                 }
             }
 
-            DataBase.RewriteDataBase(DataBase.BusPark.Shedules, DataBase.ConvertToFullPath(DataBase.DBPath, DataBase.BusDBName));
+            DataBase.RewriteDataBase(DataBase.BusPark.Shedules, DataBase.ConvertToFullPath(DataBase.DBPath, DataBase.SheduleDBName));
             CreateColums(ref _dataSheduleView, "Водитель", "Автобус", "Гос. номер", "Маршрут", "Дата", "Время");
             OutputShedule();
         }
@@ -709,9 +709,30 @@ namespace BusPark
             var driver = DataBase.BusPark.Drivers.FirstOrDefault(
                 o => o.Experience == DataBase.BusPark.Drivers.Max(e => e.Experience));
 
-            OutputListToTable(ref _dataQueryOutputView, new List<BusStation.Driver>{ driver }, '|',
-                "ID", "ФИО", "Стаж", "Категория прав", "День рождения");
-            _dataQueryOutputView.Columns[0].Visible = false;
+            var routes = (from sh in DataBase.BusPark.Shedules
+                          where sh.DriverID == driver.ID
+                          join route in DataBase.BusPark.Routes
+                          on sh.RouteID equals route.ID
+                         select new
+                         {
+                             driverName = driver.FullName,
+                             driverExp = driver.Experience,
+                             routeNumber = route.Number
+                         }).ToList();
+
+            CreateColums(ref _dataQueryOutputView, "ФИО", "Стаж", "Маршрут");
+
+            int row = 0;
+            foreach(var route in routes)
+            {
+                _dataQueryOutputView.Rows.Add(1);
+
+                _dataQueryOutputView.Rows[row].Cells[0].Value = route.driverName;
+                _dataQueryOutputView.Rows[row].Cells[1].Value = route.driverExp;
+                _dataQueryOutputView.Rows[row].Cells[2].Value = route.routeNumber;
+
+                ++row;
+            }
         }
 
         private void OutputTotalParkDuration()
@@ -760,7 +781,7 @@ namespace BusPark
 
             OutputListToTable(ref _dataQueryOutputView, buses, '|',
                 "ID", "Гос. Номер", "Марка", "Количество мест");
-            _dataBusView.Columns[0].Visible = false;
+            _dataQueryOutputView.Columns[0].Visible = false;
         }
 
         private void OutputDriversWithSHedule(ulong routeID)
