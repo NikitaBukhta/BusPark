@@ -514,7 +514,7 @@ namespace BusPark
                              }).FirstOrDefault();
 
                 var RouteID = (from s in DataBase.BusPark.Routes
-                               where (s.Begin + " - " + s.End) == data[3].ToString()
+                               where s.Number.ToString() == data[3].ToString()
                                select new
                                {
                                    s.ID
