@@ -400,7 +400,7 @@ namespace BusPark
                                    driver = dr.FullName,
                                    bus = b.Type,
                                    busStateNumber = b.StateNumber,
-                                   route = r.Begin + " - " + r.End,
+                                   routeNumber = r.Number,
                                    date = shed.DepartureTime.ToString("dd.MM.yyyy"),
                                    time = shed.DepartureTime.ToString("hh:mm:ss")
                                }).ToList();
@@ -412,7 +412,7 @@ namespace BusPark
                 _dataSheduleView.Rows[i].Cells[0].Value = outputValues[i].driver;
                 _dataSheduleView.Rows[i].Cells[1].Value = outputValues[i].bus;
                 _dataSheduleView.Rows[i].Cells[2].Value = outputValues[i].busStateNumber;
-                _dataSheduleView.Rows[i].Cells[3].Value = outputValues[i].route;
+                _dataSheduleView.Rows[i].Cells[3].Value = outputValues[i].routeNumber;
                 _dataSheduleView.Rows[i].Cells[4].Value = outputValues[i].date;
                 _dataSheduleView.Rows[i].Cells[5].Value = outputValues[i].time;
             }
