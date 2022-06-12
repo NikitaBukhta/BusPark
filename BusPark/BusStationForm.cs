@@ -23,11 +23,14 @@ namespace BusPark
         private DataGridView _dataSheduleView;
         private Button _saveDriverButton;
         private Button _saveBusButton;
-        private IContainer components;
         private TabPage tabPage1;
         private Button _saveDirectoryButton;
         private TabPage tabQueryPage;
         private Label _newDataBaseDirLabel;
+        private ComboBox _comboQueryBox;
+        private ComboBox _comboQueryElemsBox;
+        private DataGridView _dataQueryOutputView;
+        private Label _moreDataQueryOutput;
         private TabPage _tabRoutePage;
 
         public BusStationForm()
@@ -54,6 +57,10 @@ namespace BusPark
             this._tabShedulePage = new System.Windows.Forms.TabPage();
             this._dataSheduleView = new System.Windows.Forms.DataGridView();
             this.tabQueryPage = new System.Windows.Forms.TabPage();
+            this._dataQueryOutputView = new System.Windows.Forms.DataGridView();
+            this._comboQueryElemsBox = new System.Windows.Forms.ComboBox();
+            this._comboQueryBox = new System.Windows.Forms.ComboBox();
+            this._moreDataQueryOutput = new System.Windows.Forms.Label();
             this._mainPage.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this._tabDriverPage.SuspendLayout();
@@ -64,6 +71,8 @@ namespace BusPark
             ((System.ComponentModel.ISupportInitialize)(this._dataBusView)).BeginInit();
             this._tabShedulePage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._dataSheduleView)).BeginInit();
+            this.tabQueryPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._dataQueryOutputView)).BeginInit();
             this.SuspendLayout();
             // 
             // _mainPage
@@ -220,12 +229,58 @@ namespace BusPark
             // 
             // tabQueryPage
             // 
+            this.tabQueryPage.Controls.Add(this._moreDataQueryOutput);
+            this.tabQueryPage.Controls.Add(this._dataQueryOutputView);
+            this.tabQueryPage.Controls.Add(this._comboQueryElemsBox);
+            this.tabQueryPage.Controls.Add(this._comboQueryBox);
             this.tabQueryPage.Location = new System.Drawing.Point(4, 22);
             this.tabQueryPage.Name = "tabQueryPage";
             this.tabQueryPage.Size = new System.Drawing.Size(889, 453);
             this.tabQueryPage.TabIndex = 5;
             this.tabQueryPage.Text = "Запросы";
             this.tabQueryPage.UseVisualStyleBackColor = true;
+            // 
+            // _dataQueryOutputView
+            // 
+            this._dataQueryOutputView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this._dataQueryOutputView.Location = new System.Drawing.Point(3, 179);
+            this._dataQueryOutputView.Name = "_dataQueryOutputView";
+            this._dataQueryOutputView.Size = new System.Drawing.Size(883, 271);
+            this._dataQueryOutputView.TabIndex = 2;
+            // 
+            // _comboQueryElemsBox
+            // 
+            this._comboQueryElemsBox.FormattingEnabled = true;
+            this._comboQueryElemsBox.Location = new System.Drawing.Point(637, 65);
+            this._comboQueryElemsBox.Name = "_comboQueryElemsBox";
+            this._comboQueryElemsBox.Size = new System.Drawing.Size(249, 21);
+            this._comboQueryElemsBox.TabIndex = 1;
+            this._comboQueryElemsBox.Visible = false;
+            // 
+            // _comboQueryBox
+            // 
+            this._comboQueryBox.FormattingEnabled = true;
+            this._comboQueryBox.Items.AddRange(new object[] {
+            "Список водителей, работающих на определенном маршруте с указанием графика их рабо" +
+                "ты.",
+            "Какие автобусы обслуживают данный маршрут.",
+            "Протяженность маршрутов и их минимальная и максимальная протяженность.",
+            "На каком маршруте работает водитель с максимальным стажем.",
+            "Какова общая протяженность маршрутов, обслуживаемых автопарком."});
+            this._comboQueryBox.Location = new System.Drawing.Point(6, 65);
+            this._comboQueryBox.Name = "_comboQueryBox";
+            this._comboQueryBox.Size = new System.Drawing.Size(459, 21);
+            this._comboQueryBox.TabIndex = 0;
+            this._comboQueryBox.SelectedIndexChanged += new System.EventHandler(this._comboQueryBox_SelectedIndexChanged);
+            // 
+            // _moreDataQueryOutput
+            // 
+            this._moreDataQueryOutput.Location = new System.Drawing.Point(3, 125);
+            this._moreDataQueryOutput.Name = "_moreDataQueryOutput";
+            this._moreDataQueryOutput.Size = new System.Drawing.Size(883, 51);
+            this._moreDataQueryOutput.TabIndex = 3;
+            this._moreDataQueryOutput.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this._moreDataQueryOutput.Visible = false;
             // 
             // BusStationForm
             // 
@@ -242,25 +297,38 @@ namespace BusPark
             ((System.ComponentModel.ISupportInitialize)(this._dataBusView)).EndInit();
             this._tabShedulePage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._dataSheduleView)).EndInit();
+            this.tabQueryPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._dataQueryOutputView)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         private void LoadDataSource()
         {
-            OutputListToTable(ref _dataDriverView, DataBase.BusPark.Drivers, "ID", "ФИО", "Стаж", "Категория прав", "День рождения");
+            OutputListToTable(ref _dataDriverView, DataBase.BusPark.Drivers, '|', 
+                "ID", "ФИО", "Стаж", "Категория прав", "День рождения");
             _dataDriverView.Columns[0].Visible = false;
 
-            OutputListToTable(ref _dataBusView, DataBase.BusPark.Buses, "ID", "Гос. Номер", "Марка", "Количество мест");
+            OutputListToTable(ref _dataBusView, DataBase.BusPark.Buses, '|', 
+                "ID", "Гос. Номер", "Марка", "Количество мест");
             _dataBusView.Columns[0].Visible = false;
 
-            OutputListToTable(ref _dataRouteGridView, DataBase.BusPark.Routes, "ID", "Номер маршрута", "Начало", "Конец", "Протяжённость в минутах", "Интервал");
+            OutputListToTable(ref _dataRouteGridView, DataBase.BusPark.Routes, '|', 
+                "ID", "Номер маршрута", "Начало", "Конец", "Протяжённость в минутах", "Интервал");
             _dataRouteGridView.Columns[0].Visible = false;
 
-            CreateColums(ref _dataSheduleView, "Водитель", "Автобус", "Гос. номер", "Маршрут", "Дата", "Время");
+            CreateColums(ref _dataSheduleView, 
+                "Водитель", "Автобус", "Гос. номер", "Маршрут", "Дата", "Время");
             OutputShedule();
 
             //_dataDriverView.DataSource = DataBase.BusPark.Drivers;
+        }
+
+        private void ClearTable(ref DataGridView table)
+        {
+            table.Rows.Clear();
+            table.Columns.Clear();
+            table.Refresh();
         }
 
         /* Description:
@@ -272,10 +340,8 @@ namespace BusPark
          */
         private void CreateColums(ref DataGridView table, params string[] columsName)
         {
-            // Clear the table;
-            table.Columns.Clear();
-            table.Rows.Clear();
-            table.Refresh();
+            ClearTable(ref table);
+
 
             // Add all columns;
             for (int i = 0; i < columsName.Length; ++i)
@@ -286,27 +352,23 @@ namespace BusPark
         }
 
         /* Description:
-         * Fill the table with your data
+         * Fill the table with your data. For this you must have ToString overload!
          * 
          * Args:
          * table - data grid view we want to fill;
          * data - data we want to output; 
          * columsName - how we want to call the colums;
          */
-        private void OutputListToTable<ListContainData>(ref DataGridView table, List<ListContainData> data, params string[] columsName)
+        private void OutputListToTable<ListContainData>(ref DataGridView table, List<ListContainData> data, char split_data_char, params string[] columsName)
         {
-            // Clear the table;
-            table.Columns.Clear();
-            table.Rows.Clear();
-            table.Refresh();
-
+            ClearTable(ref table);
             CreateColums(ref table, columsName);
 
             // Fill data;
             for (int i = 0; i < data.Count; ++i)
             {
                 table.Rows.Add(1);
-                var d = data[i].ToString().Split('|');
+                var d = data[i].ToString().Split(split_data_char);
 
                 for (int j = 0; j < Math.Min(d.Length, columsName.Length); ++j)
                 {
@@ -379,7 +441,8 @@ namespace BusPark
             }
 
             DataBase.RewriteDataBase(DataBase.BusPark.Drivers, DataBase.ConvertToFullPath(DataBase.DBPath, DataBase.DriverDBName));
-            OutputListToTable(ref _dataDriverView, DataBase.BusPark.Drivers, "ID", "ФИО", "Стаж", "Категория прав", "День рождения");
+            OutputListToTable(ref _dataDriverView, DataBase.BusPark.Drivers, '|',
+                "ID", "ФИО", "Стаж", "Категория прав", "День рождения");
             _dataDriverView.Columns[0].Visible = false;
 
             SaveShedule();
@@ -412,7 +475,8 @@ namespace BusPark
             }
 
             DataBase.RewriteDataBase(DataBase.BusPark.Buses, DataBase.ConvertToFullPath(DataBase.DBPath, DataBase.BusDBName));
-            OutputListToTable(ref _dataBusView, DataBase.BusPark.Buses, "ID", "Гос. Номер", "Марка", "Количество мест");
+            OutputListToTable(ref _dataBusView, DataBase.BusPark.Buses, '|',
+                "ID", "Гос. Номер", "Марка", "Количество мест");
             _dataBusView.Columns[0].Visible = false;
 
             SaveShedule();
@@ -543,6 +607,95 @@ namespace BusPark
                     }
                     break;
             }
+        }
+
+        private void _comboQueryBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_comboQueryBox.SelectedIndex < 0)
+                return;
+
+            Action hideUnwantedWidgets = () =>
+            {
+                _moreDataQueryOutput.Visible = false;
+                _comboQueryElemsBox.Visible = false;
+            };
+
+            switch (_comboQueryBox.SelectedIndex)
+            {
+                case 0:
+                    hideUnwantedWidgets();
+                    break;
+
+                case 1:
+                    hideUnwantedWidgets();
+                    break;
+
+                case 2:
+                    hideUnwantedWidgets();
+                    OutputRoutes();
+                    break;
+
+                case 3:
+                    hideUnwantedWidgets();
+                    OutputTheMostExperiencedDriver();
+                    break;
+
+                case 4:
+                    hideUnwantedWidgets();
+                    OutputTotalParkDuration();
+                    break;
+            }
+        }
+
+        private void OutputRoutes()
+        {
+            var routes = (from route in DataBase.BusPark.Routes
+                          orderby route.Number
+                          select new
+                          {
+                              routeNumber = route.Number,
+                              routeDuration = route.Duration
+                          }).ToList();
+
+            CreateColums(ref _dataQueryOutputView, "Номер маршрутка", "Протяжённость в минутах");
+            int row = 0;
+            foreach (var r in routes)
+            {
+                _dataQueryOutputView.Rows[row].Cells[0].Value = r.routeNumber;
+                _dataQueryOutputView.Rows[row].Cells[1].Value = r.routeDuration;
+            }
+
+            var minDurationElem = routes.FirstOrDefault(o => o.routeDuration == routes.Min(e => e.routeDuration));
+            var maxDurationElem = routes.FirstOrDefault(o => o.routeDuration == routes.Max(e => e.routeDuration));
+
+            _moreDataQueryOutput.Text = $"Минимальная протяжённость: {minDurationElem.routeDuration} минут " +
+                $"({minDurationElem.routeNumber} маршрутка)" +
+                $"\nМаксимальная протяжённость: {maxDurationElem.routeDuration} минут " +
+                $"({maxDurationElem.routeNumber} маршрутка)";
+
+            _moreDataQueryOutput.Visible = true;
+        }
+
+        private void OutputTheMostExperiencedDriver()
+        {
+            var driver = DataBase.BusPark.Drivers.FirstOrDefault(
+                o => o.Experience == DataBase.BusPark.Drivers.Max(e => e.Experience));
+
+            ClearTable(ref _dataQueryOutputView);
+
+            OutputListToTable(ref _dataQueryOutputView, new List<BusStation.Driver>{ driver }, '|',
+                "ID", "ФИО", "Стаж", "Категория прав", "День рождения");
+            _dataQueryOutputView.Columns[0].Visible = false;
+        }
+
+        private void OutputTotalParkDuration()
+        {
+            var totalDuration = DataBase.BusPark.Routes.Sum(o => o.Duration);
+
+            ClearTable(ref _dataQueryOutputView);
+
+            _moreDataQueryOutput.Text = $"Общая протяжённость: {totalDuration}";
+            _moreDataQueryOutput.Visible = true;
         }
     }
 }
